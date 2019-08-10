@@ -1,0 +1,37 @@
+{
+    "name": "patient-recipe",
+    "version": "1.0.0",
+    "description": "Enable patiens to search for allowed recipes and ingredients",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest --detectOpenHandles --forceExit "
+    },
+    "jest": {
+        "setupFiles": ["dotenv/config"],
+        "setupFilesAfterEnv": [
+            "jest-expect-message"
+        ]
+    },
+    "keywords": [
+        "Patients",
+        "Food",
+        "Recipes"
+    ],
+    "author": "Maha Saad",
+    "license": "ISC",
+    "devDependencies": {
+        "jest": "^24.8.0",
+        "supertest": "^4.0.2"
+    },
+    "dependencies": {
+        "bcrypt": "^3.0.6",
+        "config": "^3.2.2",
+        "dotenv": "^8.0.0",
+        "express": "^4.17.1",
+        "jest-expect-message": "^1.0.2",
+        "joi": "^14.3.1",
+        "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.15",
+        "mongoose": "^5.6.8"
+    }
+}
