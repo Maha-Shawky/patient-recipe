@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const config = require('config');
 
-module.exports = () => {
+module.exports = async() => {
     const db = config.get('DB_Connection');
-    mongoose.connect(db)
-        .then(() => console.log(`Connected to ${db}...`))
-        .catch(e => {
-            console.log(`Unable to connect to ${db}`)
-        });
+    try {
+        await mongoose.connect(db)
+        console.log(`Connected to ${db}...`);
+    } catch (e) {
+        throw `Unable to connect to ${db}`
+    };
 }

@@ -2,13 +2,12 @@ const request = require('supertest');
 const { User, Roles } = require('../../../models/user');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const { authHeader, jwtSecretKey } = require('../../../utils/constants')
 
 let server;
 const prefix = '/api/users';
 describe(prefix, () => {
-    beforeAll(() => {
-        server = require('../../../index');
-    })
+    beforeAll(async() => server = await require('../../../index'))
 
     afterAll(async() => {
         await server.close();
@@ -17,6 +16,11 @@ describe(prefix, () => {
 
     describe('Create new user', () => {
         let name, password, roles, email;
+        const postUser = () => {
+            return request(server).post(prefix + '/register')
+                .send({ name, password, roles, email });
+        }
+
         beforeEach(() => {
             name = 'testName';
             password = 'testPassword';
@@ -26,10 +30,7 @@ describe(prefix, () => {
         afterEach(async() => {
             await User.remove({});
         })
-        const postUser = () => {
-            return request(server).post(prefix + '/register')
-                .send({ name, password, roles, email });
-        }
+
         it('Should return 400 if name is undefined', async() => {
             name = undefined;
             const result = await postUser();
@@ -137,8 +138,8 @@ describe(prefix, () => {
             const { password, ...expected } = registeredUser;
             expect(response.body).toMatchObject(expected)
 
-            const token = response.header['x-auth-token'];
-            const decoded = jwt.verify(token, config.get('jwtSecret'));
+            const token = response.header[authHeader];
+            const decoded = jwt.verify(token, config.get(jwtSecretKey));
             expect(decoded.email, 'Invalid token').toBe(loginUser.email);
         })
 

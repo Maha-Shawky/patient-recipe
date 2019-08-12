@@ -2,6 +2,7 @@ const Joi = require('joi');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const { jwtSecretKey } = require('../utils/constants')
 
 const Roles = Object.freeze({
     Admin: 'admin',
@@ -34,13 +35,13 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({ _id: this._id, name: this.name, roles: this.roles, email: this.email }, config.get('jwtSecret'));
+    const token = jwt.sign({ _id: this._id, name: this.name, roles: this.roles, email: this.email }, config.get(jwtSecretKey));
     return token;
 }
 
 const User = mongoose.model('User', userSchema);
 
-function validate(user) {
+function validateUser(user) {
     const schema = {
         name: Joi.string().min(2).max(50).required(),
         email: Joi.string().max(64).required().email(),
@@ -53,5 +54,5 @@ function validate(user) {
 module.exports = {
     Roles,
     User,
-    validate
+    validateUser
 }
