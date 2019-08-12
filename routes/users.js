@@ -4,7 +4,10 @@ const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const { User, validate } = require('../models/user');
 
-
+const sendAuthResponse = (user, res) => {
+    const token = user.generateAuthToken();
+    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email', 'roles']));
+}
 router.post('/register', async(req, res) => {
     const { error } = validate(req.body);
     if (error)
@@ -14,14 +17,15 @@ router.post('/register', async(req, res) => {
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
-    try {
 
-        const result = await new User(user).save()
-        return res.send(_.pick(result, ['_id', 'name', 'email', 'roles']));
+    try {
+        const result = await user.save()
+        return sendAuthResponse(result, res);
+
     } catch (err) {
-        if (err && err.code === 11000) {
+        if (err && err.code === 11000)
             return res.status(400).send('User alreay exist');
-        }
+
         throw (err);
     }
 })
@@ -42,8 +46,7 @@ router.post('/login', async(req, res) => {
     if (!validPassword)
         return res.status(404).send('user not found');
 
-    const token = user.generateAuthToken();
-    res.send({ token });
+    sendAuthResponse(user, res);
 })
 
 module.exports = router;

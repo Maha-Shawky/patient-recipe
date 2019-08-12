@@ -26,7 +26,7 @@ describe(prefix, () => {
         afterEach(async() => {
             await User.remove({});
         })
-        const postUser = (user) => {
+        const postUser = () => {
             return request(server).post(prefix + '/register')
                 .send({ name, password, roles, email });
         }
@@ -98,9 +98,10 @@ describe(prefix, () => {
     })
     describe('Login user', () => {
         //async issue => https://github.com/facebook/jest/issues/1256
+        let registeredUser = { name: 'testName', password: 'testPassword', roles: [Roles.User], email: 'user@gmail.com' };
         beforeAll(async(done) => {
             await request(server).post(prefix + '/register')
-                .send({ name: 'testName', password: 'testPassword', roles: [Roles.User], email: 'user@gmail.com' });
+                .send(registeredUser);
             done();
         })
         afterAll(async(done) => {
@@ -108,32 +109,35 @@ describe(prefix, () => {
             done();
         })
         it('Should return 400 if undefined email', async() => {
-            let result = await request(server).post(prefix + '/login')
+            let response = await request(server).post(prefix + '/login')
                 .send({ password: 'testPassword' });
-            expect(result.status).toBe(400);
+            expect(response.status).toBe(400);
         })
         it('Should return 404 if  email not found', async() => {
-            let result = await request(server).post(prefix + '/login')
+            let response = await request(server).post(prefix + '/login')
                 .send({ email: 'fake@gmail.com', password: 'testPassword' });
-            expect(result.status).toBe(404);
+            expect(response.status).toBe(404);
         })
         it('Should return 400 if undefined password', async() => {
-            let result = await request(server).post(prefix + '/login')
+            let response = await request(server).post(prefix + '/login')
                 .send({ email: 'user@gmail.com' });
-            expect(result.status).toBe(400);
+            expect(response.status).toBe(400);
         })
         it('Should return 404 if  password doesn\'t match', async() => {
-            let result = await request(server).post(prefix + '/login')
+            let response = await request(server).post(prefix + '/login')
                 .send({ email: 'user@gmail.com', password: 'fakePassword' });
-            expect(result.status).toBe(404);
+            expect(response.status).toBe(404);
         })
         it('Should return 200 and valid token if login is succeeded', async() => {
             const loginUser = { email: 'user@gmail.com', password: 'testPassword' };
 
-            let result = await request(server).post(prefix + '/login').send(loginUser);
-            expect(result.status, result.text).toBe(200);
+            let response = await request(server).post(prefix + '/login').send(loginUser);
+            expect(response.status, response.text).toBe(200);
 
-            const token = result.body.token;
+            const { password, ...expected } = registeredUser;
+            expect(response.body).toMatchObject(expected)
+
+            const token = response.header['x-auth-token'];
             const decoded = jwt.verify(token, config.get('jwtSecret'));
             expect(decoded.email, 'Invalid token').toBe(loginUser.email);
         })
