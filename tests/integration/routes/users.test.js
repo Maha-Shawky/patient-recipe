@@ -33,67 +33,67 @@ describe(prefix, () => {
 
         it('Should return 400 if name is undefined', async() => {
             name = undefined;
-            const result = await postUser();
-            expect(result.status).toBe(400);
+            const response = await postUser();
+            expect(response.status).toBe(400);
         })
         it('Should return 400 if name is less than 2', async() => {
             name = 'a';
-            const result = await postUser();
-            expect(result.status, result.text).toBe(400);
+            const response = await postUser();
+            expect(response.status, response.text).toBe(400);
         })
         it('Should return 400 if name is greater than 50', async() => {
             name = new Array(52).join('a');
-            const result = await postUser();
-            expect(result.status).toBe(400);
+            const response = await postUser();
+            expect(response.status).toBe(400);
         })
         it('Should return 400 if password is undefined', async() => {
             password = undefined;
-            let result = await postUser();
-            expect(result.status).toBe(400);
+            let response = await postUser();
+            expect(response.status).toBe(400);
         })
         it('Should return 400 if password is less than 5', async() => {
             password = 'x';
-            let result = await postUser();
-            expect(result.status).toBe(400);
+            let response = await postUser();
+            expect(response.status).toBe(400);
         })
         it('Should return 400 if password is greater than 255', async() => {
             password = new Array(280).join('x')
-            let result = await postUser();
-            expect(result.status).toBe(400);
+            let response = await postUser();
+            expect(response.status).toBe(400);
         })
         it('Should return 400 if email is undefined', async() => {
             email = undefined;
-            let result = await postUser();
-            expect(result.status).toBe(400);
+            let response = await postUser();
+            expect(response.status).toBe(400);
         })
         it('Should return 400 if email is incorrect', async() => {
             email = 'bad format';
-            let result = await postUser();
-            expect(result.status).toBe(400);
+            let response = await postUser();
+            expect(response.status).toBe(400);
         })
         it('Should return 400 if email is greater than 64', async() => {
                 email = new Array(60).join('x') + '@yahoo.com';
-                let result = await postUser();
-                expect(result.status).toBe(400);
+                let response = await postUser();
+                expect(response.status).toBe(400);
             })
             //TODO test roles
 
         // it('Should return 401 if non admin user is calling the endpoint', async() => {
         //     roles = ['user']
-        //     result = await postUser();
-        //     expect(result.status).toBe(401);
+        //     response = await postUser();
+        //     expect(response.status).toBe(401);
 
         // })
         it('Should return 200 if valid user', async() => {
-            let result = await postUser();
-            expect(result.status).toBe(200);
-            expect(result.body).toMatchObject({ name, email, roles })
+            let response = await postUser();
+            expect(response.status).toBe(200);
+            expect(response.body).toMatchObject({ name, email, roles })
 
         })
         it('Should return 400 if user already exist', async() => {
-            let result = await postUser();
-            result = await postUser();
-            expect(result.status).toBe(400);
+            let response = await postUser();
+            response = await postUser();
+            expect(response.status).toBe(400);
 
         })
     })
