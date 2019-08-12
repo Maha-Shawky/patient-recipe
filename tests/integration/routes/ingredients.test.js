@@ -42,37 +42,32 @@ describe(prefix, () => {
 
         it('Should return 401 if user not authorized', async() => {
             token = null;
-            const respose = await postIngredient();
-            expect(respose.status).toBe(401);
+            const response = await postIngredient();
+            expect(response.status).toBe(401);
         })
         it('Should return 403 if user not admin', async() => {
             token = new User({ roles: [Roles.User] }).generateAuthToken();
-            const respose = await postIngredient();
-            expect(respose.status).toBe(403);
+            const response = await postIngredient();
+            expect(response.status).toBe(403);
         })
         describe('Test valid ingredient', () => {
             it('Should return 400 if name is undefined', async() => {
                 delete ingredient.name;
-                const respose = await postIngredient();
-                expect(respose.status).toBe(400);
+                const response = await postIngredient();
+                expect(response.status).toBe(400);
             })
             it('Should return 400 if name is already added', async() => {
-                let respose = await postIngredient();
-                expect(respose.status).toBe(200)
+                let response = await postIngredient();
+                expect(response.status).toBe(200)
 
-                respose = await postIngredient();
-                expect(respose.status).toBe(400);
-            })
-            it('Should return 400 if category is undefined', async() => {
-                delete ingredient.category;
-                const respose = await postIngredient();
-                expect(respose.status).toBe(400);
+                response = await postIngredient();
+                expect(response.status).toBe(400);
             })
         })
         it('Should return 200 if ingredient is added successfuly', async() => {
-            const respose = await postIngredient();
-            expect(respose.status).toBe(200);
-            expect(respose.body).toMatchObject(ingredient);
+            const response = await postIngredient();
+            expect(response.status).toBe(200);
+            expect(response.body).toMatchObject(ingredient);
 
         })
     })
