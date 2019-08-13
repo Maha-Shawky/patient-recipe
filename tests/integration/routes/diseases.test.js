@@ -1,13 +1,3 @@
-/* Add disease
-    - 401 if not Authenticated
-    - 403 if not Admin
-    - 400 if bad request
-        - forbidden list is array
-        - recommended list is array
-    - 200 if succeeded
-
-*/
-
 const request = require('supertest');
 const objectid = require('objectid');
 const { authHeaderKey } = require('../../../utils/constants');
