@@ -1,4 +1,4 @@
 module.exports = Object.freeze({
-    authHeader: 'x-auth-token',
+    authHeaderKey: 'x-auth-token',
     jwtSecretKey: 'jwtSecret'
 });

@@ -6,7 +6,7 @@
 */
 
 const request = require('supertest');
-const { authHeader } = require('../../../utils/constants');
+const { authHeaderKey } = require('../../../utils/constants');
 const { User, Roles } = require('../../../models/user')
 const { Ingredient } = require('../../../models/ingredient')
 
@@ -24,7 +24,7 @@ describe(prefix, () => {
         let token, ingredient;
         const postIngredient = () => {
             const headers = token ? {
-                [authHeader]: token
+                [authHeaderKey]: token
             } : {};
             return request(server).post(prefix + '/')
                 .set(headers).send(ingredient);
@@ -32,7 +32,7 @@ describe(prefix, () => {
 
         beforeEach(() => {
             token = new User({ roles: [Roles.Admin] }).generateAuthToken();
-            ingredient = { name: 'banana', category: 'fruit' };
+            ingredient = { name: 'banana', category: 'fruits' };
         })
 
         afterEach(async(done) => {
@@ -64,7 +64,7 @@ describe(prefix, () => {
                 expect(response.status).toBe(400);
             })
         })
-        it('Should return 200 if ingredient is added successfuly', async() => {
+        it('Should return 200 if ingredient is added successfully', async() => {
             const response = await postIngredient();
             expect(response.status).toBe(200);
             expect(response.body).toMatchObject(ingredient);

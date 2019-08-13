@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const { authHeader, jwtSecretKey } = require('../utils/constants')
+const { authHeaderKey, jwtSecretKey } = require('../utils/constants')
 
 module.exports = (req, res, next) => {
     try {
-        const token = req.header(authHeader);
+        const token = req.header(authHeaderKey);
         if (!token)
             return res.status(401).send('Access denied. No token provided');
 

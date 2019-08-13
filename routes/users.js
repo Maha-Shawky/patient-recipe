@@ -3,11 +3,11 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const { User, validateUser } = require('../models/user');
-const { authHeader: authHeader, jwtSecretKey } = require('../utils/constants')
+const { authHeaderKey } = require('../utils/constants')
 
 const sendAuthResponse = (user, res) => {
     const token = user.generateAuthToken();
-    res.header(authHeader, token).send(_.pick(user, ['_id', 'name', 'email', 'roles']));
+    res.header(authHeaderKey, token).send(_.pick(user, ['_id', 'name', 'email', 'roles']));
 }
 router.post('/register', async(req, res) => {
     const { error } = validateUser(req.body);

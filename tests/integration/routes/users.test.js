@@ -2,7 +2,7 @@ const request = require('supertest');
 const { User, Roles } = require('../../../models/user');
 const config = require('config');
 const jwt = require('jsonwebtoken');
-const { authHeader, jwtSecretKey } = require('../../../utils/constants')
+const { authHeaderKey, jwtSecretKey } = require('../../../utils/constants')
 
 let server;
 const prefix = '/api/users';
@@ -138,7 +138,7 @@ describe(prefix, () => {
             const { password, ...expected } = registeredUser;
             expect(response.body).toMatchObject(expected)
 
-            const token = response.header[authHeader];
+            const token = response.header[authHeaderKey];
             const decoded = jwt.verify(token, config.get(jwtSecretKey));
             expect(decoded.email, 'Invalid token').toBe(loginUser.email);
         })
