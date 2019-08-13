@@ -1,7 +1,5 @@
 const initApp = async() => {
     try {
-        require('dotenv').config();
-
         const express = require('express');
         const app = express();
         app.use(express.json());
@@ -17,7 +15,9 @@ const initApp = async() => {
         const port = process.env.PORT || 3000;
         return app.listen(port, () => console.log(`Listening on port ${port}...`));
     } catch (e) {
-        console.log(`Unable to initialize server, Error: ${e}`);
+        console.log(`Unable to initialize server, Error:`);
+        console.log(e);
+        await new Promise(resolve => setTimeout(() => resolve(), 500));
         process.exit(1);
     }
 };
