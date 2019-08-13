@@ -4,7 +4,8 @@ const config = require('config');
 module.exports = async() => {
     const db = config.get('DB_Connection');
     try {
-        await mongoose.connect(db)
+        mongoose.set('useCreateIndex', true);
+        await mongoose.connect(db, { useNewUrlParser: true })
         console.log(`Connected to ${db}...`);
     } catch (e) {
         throw `Unable to connect to ${db}`
