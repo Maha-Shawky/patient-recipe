@@ -1,5 +1,8 @@
 const initApp = async() => {
     try {
+        const Joi = require('Joi');
+        Joi.objectId = require('joi-objectid')(Joi);
+
         const express = require('express');
         const app = express();
         app.use(express.json());
