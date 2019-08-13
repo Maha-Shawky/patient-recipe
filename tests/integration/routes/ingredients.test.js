@@ -71,4 +71,35 @@ describe(prefix, () => {
 
         })
     })
+
+    describe('Future work (not implemented):', () => {
+
+        const notify = (test) => {
+            console.warn(`${test.description} Test not implemented`);
+        }
+
+        const t1 = it('Get ingredient : Get /:ingredient', () => {
+            //(): ingredient
+            notify(t1);
+        })
+        const t2 = it('Auto complete ingredient : Get /AutoComplete/:syllable', () => {
+            //():ingredient<id,name>[] limit by n
+            notify(t2);
+        })
+        const t3 = it('Get ingredient in specific category : Get /category/:categoryName', () => {
+            //(pageIndex, pageSize):ingredient<id,name>, nextUrl
+            notify(t3);
+        })
+
+        const t4 = it('delete ingredient: delete /:ingredientId', () => {
+            //() -> succeeded or not
+            //Admin only
+            notify(t4);
+        })
+        const t5 = it('Update ingredient: put /:ingredientId', () => {
+            //(updateBatch) -> updated ingredient
+            //Admin only
+            notify(t5);
+        })
+    })
 })

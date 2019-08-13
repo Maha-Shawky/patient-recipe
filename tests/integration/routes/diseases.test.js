@@ -177,17 +177,18 @@ describe(prefix, () => {
 
         //Could use graphql for different output
         const t1 = it('List diseases : Get /', () => {
-            //(pageIndex, pageSize) : diseases [], nexturl
+            //(pageIndex, pageSize) : diseases<id,name>[], nexturl
             notify(t1);
         })
 
         const t2 = it('Get disease : Get /:diseaseId', () => {
-            //(pageIndex, pageSize) : diseases<id,name> []
+            //():disease
             notify(t2);
         })
 
         //Elastic search
         const t3 = it('Auto complete diseases : Get /AutoComplete/:syllable', () => {
+            //():disease<id,name>[] limit by n
             notify(t3);
         })
         const t4 = it('Get recommended ingredients : Get /recommended', () => {
