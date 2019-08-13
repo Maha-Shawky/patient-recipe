@@ -11,7 +11,6 @@ const ingredientSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true,
         minlength: 2,
         maxlength: 200
     },
@@ -21,12 +20,12 @@ const Ingredient = mongoose.model('Ingredient', ingredientSchema);
 const validateIngredient = (ingredient) => {
     const schema = {
         name: Joi.string().min(2).max(200).required(),
-        category: Joi.string().min(2).max(200).required(),
+        category: Joi.string().min(2).max(200),
     }
     return Joi.validate(ingredient, schema);
 }
 
 module.exports = {
     Ingredient,
-    validateIngredient
+    validateIngredient,
 }
