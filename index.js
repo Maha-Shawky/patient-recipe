@@ -2,6 +2,7 @@ const initApp = async() => {
     try {
         const Joi = require('Joi');
         Joi.objectId = require('joi-objectid')(Joi);
+        require('express-async-errors')
 
         const express = require('express');
         const app = express();
@@ -11,9 +12,8 @@ const initApp = async() => {
         await require('./startup/db')()
         require('./startup/routes')(app)
 
-        app.use((err, req, res, next) => {
-            console.log(err)
-        })
+        const errHandler = require('./middleware/errorhandler')
+        app.use(errHandler.handle)
 
         const port = process.env.PORT || 3000;
         return app.listen(port, () => console.log(`Listening on port ${port}...`));

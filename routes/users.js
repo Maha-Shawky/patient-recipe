@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
-const { User, validateUser } = require('../models/user');
+const userModel = require('../models/user');
 const { authHeaderKey } = require('../utils/constants')
 
 const sendAuthResponse = (user, res) => {
@@ -10,11 +10,11 @@ const sendAuthResponse = (user, res) => {
     res.header(authHeaderKey, token).send(_.pick(user, ['_id', 'name', 'email', 'roles']));
 }
 router.post('/register', async(req, res) => {
-    const { error } = validateUser(req.body);
+    const { error } = userModel.validateUser(req.body);
     if (error)
         return res.status(400).send(error.details[0].message);
 
-    const user = new User(_.pick(req.body, ['name', 'email', 'password', 'roles']));
+    const user = new userModel.User(_.pick(req.body, ['name', 'email', 'password', 'roles']));
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
@@ -25,7 +25,7 @@ router.post('/register', async(req, res) => {
 
     } catch (err) {
         if (err && err.code === 11000)
-            return res.status(400).send('User alreay exist');
+            return res.status(400).send('User already exist');
 
         throw (err);
     }
@@ -39,7 +39,7 @@ router.post('/login', async(req, res) => {
     if (!password)
         return res.status(400).send('password is missing');
 
-    const user = await User.findOne({ email });
+    const user = await userModel.User.findOne({ email });
     if (!user)
         return res.status(404).send('user not found');
 
