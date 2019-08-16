@@ -1,3 +1,4 @@
 {
-    "jwtSecret": "jwtSecret"
+    "jwtSecret": "jwtSecret",
+    "DbConnection": "DbConnection"
 }
