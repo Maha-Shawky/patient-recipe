@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Joi = require('Joi');
+const Joi = require('joi');
 
 const ingredientSchema = {
     _id: mongoose.Types.ObjectId,
