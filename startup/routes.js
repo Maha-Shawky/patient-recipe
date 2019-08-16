@@ -11,4 +11,7 @@ module.exports = (app) => {
     app.use('/api/ingredients', auth, ingredients);
     app.use('/api/diseases', auth, diseases);
     app.use(errHandler.handle)
+    app.use(function(req, res, next) {
+        res.status(404).send('Not found');
+    });
 }
