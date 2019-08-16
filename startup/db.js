@@ -8,6 +8,6 @@ module.exports = async() => {
         await mongoose.connect(db, { useNewUrlParser: true })
         console.log(`Connected to ${db}...`);
     } catch (e) {
-        throw `Unable to connect to ${db}`
+        throw new Error(`Unable to connect to ${db}`)
     };
 }
