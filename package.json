@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "test": "jest --detectOpenHandles --forceExit",
-        "start": "node index.js"
+        "start": "node index.js",
+        "swagger-gen": " node -r dotenv/config swagger-gen.js"
     },
     "engines": {
         "node": "~8.10.0"
@@ -44,7 +45,9 @@
         "jsonwebtoken": "^8.5.1",
         "lodash": "^4.17.15",
         "mongoose": "^5.6.8",
+        "mongoose-to-swagger": "0.0.4",
         "objectid": "^3.2.1",
+        "swagger-ui-express": "^4.0.7",
         "winston": "^3.2.1"
     }
 }
