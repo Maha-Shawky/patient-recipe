@@ -15,22 +15,38 @@ describe(prefix, () => {
     });
 
     describe('Create new user', () => {
-        let name, password, roles, email;
+        let name, password, roles, email, token;
         const postUser = () => {
-            return request(server).post(prefix + '/register')
+            const headers = token ? {
+                [authHeaderKey]: token
+            } : {};
+
+            return request(server).post(prefix)
+                .set(headers)
                 .send({ name, password, roles, email });
         }
 
         beforeEach(() => {
             name = 'testName';
             password = 'testPassword';
-            roles = [Roles.User];
+            roles = [Roles.Admin];
             email = 'test@gmail.com';
+            token = new User({ roles }).generateAuthToken();
         })
         afterEach(async() => {
             await User.remove({});
         })
 
+        it('Should return 401 if user not authorized', async() => {
+            token = null;
+            const response = await postUser();
+            expect(response.status).toBe(401);
+        })
+        it('Should return 403 if user not admin', async() => {
+            roles = [Roles.User];
+            const response = await postUser();
+            expect(response.status).toBe(403);
+        })
         it('Should return 400 if name is undefined', async() => {
             name = undefined;
             const response = await postUser();
@@ -101,7 +117,7 @@ describe(prefix, () => {
         //async issue => https://github.com/facebook/jest/issues/1256
         let registeredUser = { name: 'testName', password: 'testPassword', roles: [Roles.User], email: 'user@gmail.com' };
         beforeAll(async(done) => {
-            await request(server).post(prefix + '/register')
+            await request(server).post(prefix + '/')
                 .send(registeredUser);
             done();
         })

@@ -4,12 +4,15 @@ const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const userModel = require('../models/user');
 const { authHeaderKey } = require('../utils/constants')
+const auth = require('../middleware/auth')
+const admin = require('../middleware/admin')
+
 
 const sendAuthResponse = (user, res) => {
     const token = user.generateAuthToken();
     res.header(authHeaderKey, token).send(_.pick(user, ['_id', 'name', 'email', 'roles']));
 }
-router.post('/register', async(req, res) => {
+router.post('/', auth, admin, async(req, res) => {
     const { error } = userModel.validateUser(req.body);
     if (error)
         return res.status(400).send(error.details[0].message);

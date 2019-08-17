@@ -17,7 +17,7 @@
         }
     ],
     "paths": {
-        "/users/register": {
+        "/users": {
             "post": {
                 "tags": [
                     "users"
@@ -36,11 +36,6 @@
                     "200": {
                         "description": "successful operation",
                         "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/User"
@@ -48,9 +43,69 @@
                             }
                         }
                     },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
                     "400": {
-                        "description": "Invalid body",
-                        "content": {}
+                        "description": "Invalid body"
+                    }
+                },
+                "security": [{
+                    "ApiKeyAuth": []
+                }]
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Login user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Invalid body"
                     }
                 }
             }
@@ -78,6 +133,18 @@
                     }
                 }
             }
+        },
+
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "x-auth-token"
+            }
         }
+    },
+    "security": {
+        "ApiKeyAuth": []
     }
+
 }

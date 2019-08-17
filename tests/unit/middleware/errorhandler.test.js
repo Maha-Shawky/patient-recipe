@@ -22,7 +22,7 @@ describe('Error handler middleware', () => {
         const errorMessage = 'Invalid data to fire exception';
         userModel.validateUser = jest.fn().mockImplementation(() => { throw errorMessage });
 
-        const response = await request(server).post('/api/users/register').send({});
+        const response = await request(server).post('/api/users').send({});
         expect(response.status).toBe(500);
 
         // expect(mockErrorFunc).toHaveBeenCalled();
