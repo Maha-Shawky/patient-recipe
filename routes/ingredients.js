@@ -16,7 +16,7 @@ router.post('/', admin, async(req, res) => {
         res.send(_.pick(result, ['_id', 'name', 'category']));
     } catch (err) {
         if (err && err.code === 11000)
-            return res.status(400).send('Ingredient alreay exist');
+            return res.status(400).send('Ingredient already exist');
 
         throw (err);
     }

@@ -89,7 +89,7 @@ describe(prefix, () => {
             //TODO test merging disease with new data
     })
 
-    describe('Check if ingredient allowed: Get /ingredients/:ingredientId/forbidden', () => {
+    describe('Check which diseases from a given list disallow this ingredient: Get /ingredients/:ingredientId/forbidden', () => {
 
         const getRoute = (ingredientId) => `${prefix}/ingredients/${ingredientId}/forbidden`
         const setup = async() => {

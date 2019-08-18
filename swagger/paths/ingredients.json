@@ -1,0 +1,39 @@
+{
+    "/ingredients": {
+        "post": {
+            "tags": [
+                "Ingredients"
+            ],
+            "summary": "Add new ingredient",
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Ingredient"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ingredient"
+                            }
+                        }
+                    }
+                },
+                "400": { "$ref": "#/components/responses/400" },
+                "401": { "$ref": "#/components/responses/401" },
+                "403": { "$ref": "#/components/responses/403" },
+                "404": { "$ref": "#/components/responses/404" }
+
+            },
+            "security": [{
+                "ApiKeyAuth": []
+            }]
+        }
+    }
+}

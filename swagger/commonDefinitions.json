@@ -20,6 +20,37 @@
                         }
                     }
                 }
+            },
+            "Ingredient": {
+                "title": "Ingredient",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Disease": {
+                "title": "Disease",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "forbiddenFood": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "recommendedFood": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
             }
         },
         "securitySchemes": {

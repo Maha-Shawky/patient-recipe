@@ -1,15 +1,15 @@
 {
-    "/users": {
+    "/diseases": {
         "post": {
             "tags": [
-                "Users"
+                "Diseases"
             ],
-            "summary": "Create new user",
+            "summary": "Add new disease",
             "requestBody": {
                 "content": {
                     "application/json": {
                         "schema": {
-                            "$ref": "#/components/schemas/User"
+                            "$ref": "#/components/schemas/Disease"
                         }
                     }
                 }
@@ -20,7 +20,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/User"
+                                "$ref": "#/components/schemas/Disease"
                             }
                         }
                     }
@@ -36,43 +36,51 @@
             }]
         }
     },
-    "/users/login": {
-        "post": {
+    "/diseases/ingredients/{ingredientId}/forbidden": {
+        "get": {
             "tags": [
-                "Users"
+                "Diseases"
             ],
-            "summary": "Login user",
-            "requestBody": {
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "email": {
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "type": "string"
-                                }
-                            }
+            "summary": "Check which diseases from a given list disallow this ingredient",
+            "parameters": [{
+                    "name": "ingredientId",
+                    "in": "path",
+                    "required": "true",
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "diseases",
+                    "in": "query",
+                    "required": "true",
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
                         }
                     }
                 }
-            },
+            ],
             "responses": {
                 "200": {
                     "description": "successful operation",
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/User"
+                                "$ref": "#/components/schemas/Disease"
                             }
                         }
                     }
                 },
                 "400": { "$ref": "#/components/responses/400" },
+                "401": { "$ref": "#/components/responses/401" },
                 "404": { "$ref": "#/components/responses/404" }
-            }
+
+            },
+            "security": [{
+                "ApiKeyAuth": []
+            }]
         }
     }
 }
