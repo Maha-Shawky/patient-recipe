@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 
 module.exports = async() => {
-    const db = config.get('DbConnection');
+    const db = `${config.get('DbServer')}/${config.get('DbName')}`;
     try {
         mongoose.set('useCreateIndex', true);
         await mongoose.connect(db, { useNewUrlParser: true })
