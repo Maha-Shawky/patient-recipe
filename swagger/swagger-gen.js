@@ -4,10 +4,10 @@
 const mongoose = require('mongoose');
 const m2s = require('mongoose-to-swagger');
 
-const User = require('./models/user').User;
-const Ingredient = require('./models/ingredient').Ingredient;
-const Disease = require('./models/disease').Disease;
-const db = require('./startup/db')();
+const User = require('../models/user').User;
+const Ingredient = require('../models/ingredient').Ingredient;
+const Disease = require('../models/disease').Disease;
+const db = require('../startup/db')();
 const fs = require('fs');
 
 (async() => {

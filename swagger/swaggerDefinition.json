@@ -1,0 +1,19 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Patient recipe documentation",
+        "contact": {
+            "email": "maha.saad.mohamed@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [{
+            "url": "http://localhost:3000/api",
+            "description": "Development server"
+        },
+        {
+            "url": "https://patient-recipe.herokuapp.com/api",
+            "description": "Production server"
+        }
+    ]
+}

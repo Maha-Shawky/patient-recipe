@@ -6,7 +6,7 @@
     "scripts": {
         "test": "jest --detectOpenHandles --forceExit",
         "start": "node index.js",
-        "swagger-gen": " node -r dotenv/config swagger-gen.js"
+        "swagger-gen": " node -r dotenv/config ./swagger/swagger-gen.js"
     },
     "engines": {
         "node": "~8.10.0"

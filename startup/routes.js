@@ -5,7 +5,7 @@ const diseases = require('../routes/diseases')
 const auth = require('../middleware/auth')
 const errHandler = require('../middleware/errorhandler')
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('../swagger.json');
+const swaggerDocument = require('../swagger');
 
 
 

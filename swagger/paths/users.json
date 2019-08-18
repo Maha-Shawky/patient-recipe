@@ -1,0 +1,78 @@
+{
+    "/users": {
+        "post": {
+            "tags": [
+                "users"
+            ],
+            "summary": "Create new user",
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "400": { "$ref": "#/components/responses/400" },
+                "401": { "$ref": "#/components/responses/401" },
+                "403": { "$ref": "#/components/responses/403" },
+                "404": { "$ref": "#/components/responses/404" }
+
+            },
+            "security": [{
+                "ApiKeyAuth": []
+            }]
+        }
+    },
+    "/users/login": {
+        "post": {
+            "tags": [
+                "users"
+            ],
+            "summary": "Login user",
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "400": { "$ref": "#/components/responses/400" },
+                "404": { "$ref": "#/components/responses/404" }
+            }
+        }
+    }
+}
