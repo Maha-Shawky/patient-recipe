@@ -37,7 +37,7 @@
                 "description": "Unauthorized"
             },
             "403": {
-                "description": "Forbidden"
+                "description": "Access denied"
             },
             "400": {
                 "description": "Invalid body"
