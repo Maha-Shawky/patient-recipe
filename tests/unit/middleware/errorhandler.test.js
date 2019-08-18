@@ -1,5 +1,7 @@
 const request = require('supertest');
 const userModel = require('../../../models/user');
+const { authHeaderKey } = require('../../../utils/constants')
+
 //const errorhandler = require('../../../middleware/errorhandler');
 describe('Error handler middleware', () => {
     let server; //, mockErrorFunc;
@@ -22,7 +24,12 @@ describe('Error handler middleware', () => {
         const errorMessage = 'Invalid data to fire exception';
         userModel.validateUser = jest.fn().mockImplementation(() => { throw errorMessage });
 
-        const response = await request(server).post('/api/users').send({});
+        const token = new userModel.User({ roles: [userModel.Roles.Admin] }).generateAuthToken();
+        const response = await request(server).post('/api/users')
+            .set({
+                [authHeaderKey]: token
+            })
+            .send({});
         expect(response.status).toBe(500);
 
         // expect(mockErrorFunc).toHaveBeenCalled();

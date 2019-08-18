@@ -44,6 +44,7 @@ describe(prefix, () => {
         })
         it('Should return 403 if user not admin', async() => {
             roles = [Roles.User];
+            token = new User({ roles }).generateAuthToken();
             const response = await postUser();
             expect(response.status).toBe(403);
         })
@@ -117,7 +118,12 @@ describe(prefix, () => {
         //async issue => https://github.com/facebook/jest/issues/1256
         let registeredUser = { name: 'testName', password: 'testPassword', roles: [Roles.User], email: 'user@gmail.com' };
         beforeAll(async(done) => {
+            const token = new User({ roles: [Roles.Admin] }).generateAuthToken();
+
             await request(server).post(prefix + '/')
+                .set({
+                    [authHeaderKey]: token
+                })
                 .send(registeredUser);
             done();
         })
