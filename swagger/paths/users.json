@@ -34,6 +34,52 @@
             "security": [{
                 "ApiKeyAuth": []
             }]
+        },
+        "get": {
+            "tags": [
+                "Users"
+            ],
+            "parameters": [{
+                    "name": "pageIndex",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "name": "pageSize",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "summary": "Get all Users",
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "content": {
+                        "application/json": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "401": { "$ref": "#/components/responses/401" },
+                "404": { "$ref": "#/components/responses/404" }
+
+            },
+            "security": [{
+                "ApiKeyAuth": []
+            }]
         }
     },
     "/users/login": {

@@ -3,6 +3,7 @@ const router = express.Router();
 const _ = require('lodash');
 const admin = require('../middleware/admin')
 const { Ingredient, validateIngredient } = require('../models/ingredient');
+const { getPaginated } = require('../utils/restAPI');
 
 
 router.post('/', admin, async(req, res) => {
@@ -20,6 +21,10 @@ router.post('/', admin, async(req, res) => {
 
         throw (err);
     }
+})
+router.get('/', async(req, res) => {
+    const result = await getPaginated(req, Ingredient);
+    res.send(result);
 })
 
 module.exports = router;

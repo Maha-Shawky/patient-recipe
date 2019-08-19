@@ -5,6 +5,7 @@ const admin = require('../middleware/admin')
 const { Disease, validateDisease } = require('../models/disease');
 const { Ingredient } = require('../models/ingredient')
 const { isValidId, isValidArray } = require('../utils/validation')
+const { getPaginated } = require('../utils/restAPI')
 
 router.post('/', admin, async(req, res) => {
     const { error } = validateDisease(req.body);
@@ -28,6 +29,10 @@ router.post('/', admin, async(req, res) => {
     res.send(_.pick(disease, ['_id', 'name', 'forbiddenFood', 'recommendedFood']));
 })
 
+router.get('/', async(req, res) => {
+    const result = await getPaginated(req, Disease);
+    res.send(result);
+})
 
 router.get('/ingredients/:ingredientId/forbidden', async(req, res) => {
     const ingredientId = req.params['ingredientId'];

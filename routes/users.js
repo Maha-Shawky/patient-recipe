@@ -3,15 +3,17 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const userModel = require('../models/user');
-const { authHeaderKey } = require('../utils/constants')
-const auth = require('../middleware/auth')
-const admin = require('../middleware/admin')
+const { authHeaderKey } = require('../utils/constants');
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
+const { getPaginated } = require('../utils/restAPI');
 
 
 const sendAuthResponse = (user, res) => {
     const token = user.generateAuthToken();
     res.header(authHeaderKey, token).send(_.pick(user, ['_id', 'name', 'email', 'roles']));
 }
+
 router.post('/', auth, admin, async(req, res) => {
     const { error } = userModel.validateUser(req.body);
     if (error)
@@ -32,6 +34,14 @@ router.post('/', auth, admin, async(req, res) => {
 
         throw (err);
     }
+})
+router.get('/', async(req, res) => {
+    const filterCallBack = function(obj) {
+        const { __v, password, ...rest } = obj;
+        return rest;
+    }
+    const result = await getPaginated(req, userModel.User, filterCallBack);
+    res.send(result);
 })
 
 router.post('/login', async(req, res) => {
